@@ -164,6 +164,9 @@ app.post("/relatedproducts", async (req, res) => {
 app.post('/addtocart', fetchuser, async (req, res) => {
   console.log("Add Cart");
   let userData = await Users.findOne({ _id: req.user.id });
+  if (!userData) {
+    return res.status(404).send({ error: "User not found" });
+  }
   userData.cartData[req.body.itemId] += 1;
   await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData });
   res.send("Added")
@@ -174,6 +177,9 @@ app.post('/addtocart', fetchuser, async (req, res) => {
 app.post('/removefromcart', fetchuser, async (req, res) => {
   console.log("Remove Cart");
   let userData = await Users.findOne({ _id: req.user.id });
+  if (!userData) {
+    return res.status(404).send({ error: "User not found" });
+  }
   if (userData.cartData[req.body.itemId] != 0) {
     userData.cartData[req.body.itemId] -= 1;
   }
@@ -186,6 +192,9 @@ app.post('/removefromcart', fetchuser, async (req, res) => {
 app.post('/getcart', fetchuser, async (req, res) => {
   console.log("Get Cart");
   let userData = await Users.findOne({ _id: req.user.id });
+  if (!userData) {
+    return res.status(404).send({ error: "User not found" });
+  }
   res.json(userData.cartData);
 
 })
@@ -223,31 +232,31 @@ app.post("/addproduct", async (req, res) => {
 
 //search
 
-router.get("/search", async (req, res) => {
-  try {
-    const query = req.query.q;
-    if (!query) return res.json([]);
+// app.get("/search", async (req, res) => {
+//   try {
+//     const query = req.query.q;
+//     if (!query) return res.json([]);
 
-    const results = await Product.find({
-      name: { $regex: query, $options: "i" }, // case-insensitive search
-    });
+//     const results = await Product.find({
+//       name: { $regex: query, $options: "i" }, // case-insensitive search
+//     });
 
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+//     res.json(results);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 
-// 🛒 Get single product by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found" });
-    res.json(product);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+// // 🛒 Get single product by ID
+// router.get("/:id", async (req, res) => {
+//   try {
+//     const product = await Product.findById(req.params.id);
+//     if (!product) return res.status(404).json({ message: "Product not found" });
+//     res.json(product);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 
 
 
