@@ -6,7 +6,7 @@ A premium, full-stack MERN (MongoDB, Express, React, Node.js) e-commerce applica
 
 ## 📸 Project Showcase
 
-![The Shoee Storiee Homepage](assets/homepage.png)
+![The Shoee Storiee Homepage](assets/homepage1.png)
 
 ---
 
